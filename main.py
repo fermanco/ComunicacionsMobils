@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 num_cells = 19
 num_sectors = 3
@@ -41,3 +42,27 @@ for i, cell in enumerate(cell_sectors):
     print(f"Cell {i + 1} Sectors:")
     for j, sector in enumerate(cell):
         print(f"Sector {j + 1}: {sector}")
+
+from matplotlib.patches import RegularPolygon
+
+cell_c = np.array(cell_coords)
+cell_s = np.array(cell_sectors)
+
+
+def plot_hexagonal_cells_and_sectors(cell_sectors):
+    fig, ax = plt.subplots(figsize=(8, 8))
+
+    for i in range(0, num_cells):
+        hexagon = RegularPolygon(cell_c[i], numVertices=6, radius=central_cell_radius, edgecolor='blue', facecolor='none')
+        ax.add_patch(hexagon)
+
+
+    plt.xlabel('X-axis')
+    plt.ylabel('Y-axis')
+    plt.title('Hexagonal Cells and Sectors')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+plot_hexagonal_cells_and_sectors(cell_sectors)
+
