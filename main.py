@@ -15,18 +15,18 @@ def generate_hexagonal_cells():
     cell_coordinates.append(center_cell)
     for i in range(iterations_ring1): #iterations of the first ring among the central cell
         angle = 2 * np.pi / iterations_ring1 * i
-        x = (center_cell[0] + np.sqrt(3)) * np.cos(angle)
-        y = (center_cell[1] + np.sqrt(3)) * np.sin(angle)
+        x = (center_cell[0] + np.sqrt(3)) * np.sin(angle)
+        y = (center_cell[1] + np.sqrt(3)) * np.cos(angle)
         cell_coordinates.append((x, y))
 
     for i in range(iterations_ring2): #iterations of the second ring of cells
         angle = 2 * np.pi / iterations_ring2 * i
         if (i % 2) == 0: #needed to specify distances between center and exterior cells
-        	x = (center_cell[0] + 2*np.sqrt(3)) * np.cos(angle)
-        	y = (center_cell[1] + 2*np.sqrt(3)) * np.sin(angle)
+        	x = (center_cell[0] + 2*np.sqrt(3)) * np.sin(angle)
+        	y = (center_cell[1] + 2*np.sqrt(3)) * np.cos(angle)
         else:
-        	x = (center_cell[0] + 3) * np.cos(angle)
-        	y = (center_cell[1] + 3) * np.sin(angle)
+        	x = (center_cell[0] + 3) * np.sin(angle)
+        	y = (center_cell[1] + 3) * np.cos(angle)
         cell_coordinates.append((x, y))
     return cell_coordinates
     
@@ -37,8 +37,8 @@ def generate_sectors(cell_coordinates):
         cell_sectors = []
         for i in range(num_sectors):
             sector_angle = 2 * np.pi / num_sectors * i
-            sector_x = cell[0] + np.sqrt(3)/2*np.cos(sector_angle)  
-            sector_y = cell[1] + np.sqrt(3)/2*np.sin(sector_angle)  # from the center of each cell
+            sector_x = cell[0] + np.cos(sector_angle)  
+            sector_y = cell[1] + np.sin(sector_angle)  # from the center of each cell
             cell_sectors.append((sector_x, sector_y))
         all_sectors.append(cell_sectors)
     return all_sectors
@@ -62,7 +62,7 @@ def plot_hexagonal_cells_and_sectors(cell_c, cell_s):
 	plt.scatter(cell_c[:, 0], cell_c[:, 1], marker='o', color='blue', label='Cell Centers')
 	
 	for i in range(num_cells):
-		hexagon = RegularPolygon(cell_c[i], numVertices=6, radius=central_cell_radius, edgecolor='black', facecolor='none')
+		hexagon = RegularPolygon(cell_c[i], numVertices=6, radius=central_cell_radius, orientation=np.pi/2, edgecolor='black', facecolor='none')
 		ax.add_patch(hexagon)
 		
 	for i in range(num_cells):
